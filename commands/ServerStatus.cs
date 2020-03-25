@@ -16,13 +16,13 @@ namespace discord_bot.Modules
     public class ServerStatus : ModuleBase
     {
         public class Server {
-            public string Name;
-            public string Address;
-            public int Port;
+            public string Name {get; set;}
+            public string Address {get; set;}
+            public int Port {get; set;}
         }
 
         private IConfiguration configuration;
-        private List<Server> servers;
+        private List<Server> servers = new List<Server>();
 
         public ServerStatus(IServiceProvider services)
         {
@@ -32,19 +32,7 @@ namespace discord_bot.Modules
 
         [Command("servers")]
         public async Task GetStatus([Remainder]string args = null)
-        {
-            var servers = new List<Server>();
-            servers.Add(new Server {
-                Name = "Gmod Prop Hunt",
-                Address = "cdls-game2",
-                Port = 27015
-            });
-            servers.Add(new Server {
-                Name = "Gmod TTT",
-                Address = "cdls-game2",
-                Port = 27016
-            });     
-            
+        {            
             foreach(var server in servers)
             {
                 var embed = new EmbedBuilder();
@@ -70,8 +58,7 @@ namespace discord_bot.Modules
 
                     embed.AddField("Map", q.Map);
                     embed.AddField("Players", $"{q.Players}/{q.MaxPlayers}");
-
-                    embed.Description = playerString.ToString();
+                    embed.AddField("Player List", playerString.ToString());
                     
                 } catch (Exception) {
                     embed.WithColor(new Color(255, 0,0));
