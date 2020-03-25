@@ -27,14 +27,14 @@ namespace discord_bot.Modules
             replies.Add("nah");
             replies.Add("it's a ting");
             replies.Add("it's not a ting");
-            replies.Add("bitch it might be");
+            replies.Add("it might be");
 
-            embed.WithColor(new Color(0, 255,0));
+            embed.WithColor(new Color(0, 0,255));
             embed.Title = "Eight Balls:";
             
             if (args == null)
             {
-                sb.AppendLine("how you gonna ask man nothing for");
+                sb.AppendLine("how you gonna ask for nothing for");
             }
             else 
             {

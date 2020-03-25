@@ -45,6 +45,10 @@ namespace discord_bot.Services
                 return;
             }
 
+            // Log message
+            _ = Database.LogAsync(message.Channel.Id.ToString(), message.Author.Username, message.Content);
+            _ = Database.LogChannelAsync(message.Channel.Id.ToString(), message.Channel.Name);
+
             var argPos = 0;
 
             char prefix = Char.Parse(_config["COMMAND_PREFIX"]);

@@ -31,6 +31,9 @@ namespace discord_bot
 
             // build the configuration and assign to _config          
             _config = configBuilder.Build();
+
+            // init db
+            Database.InitDB();
         }
 
         public async Task MainAsync()

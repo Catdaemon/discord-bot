@@ -1,6 +1,6 @@
 # .Net Core 3.1 Discord Bot
 
-Monitors source servers and has 8ball.
+Monitors source servers, logs chat, produces stats, and has !8ball.
 
 ## Usage
 
@@ -8,6 +8,8 @@ Add the following to environment or `config.json`:
 - DISCORD_TOKEN
 - COMMAND_PREFIX
 - Servers
+
+If you want to persist chat logs and are using docker, map the /db folder.
 
 ## config.json example
 ```json
