@@ -60,7 +60,7 @@ namespace discord_bot.Modules
                     embed.AddField("Players", $"{q.Players}/{q.MaxPlayers}");
                     embed.AddField("Player List", playerString.ToString());
                     
-                } catch (Exception) {
+                } catch (Exception e) {
                     embed.WithColor(new Color(255, 0,0));
                     embed.Description = "Server is not responding.";
                 }

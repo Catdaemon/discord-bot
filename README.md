@@ -8,6 +8,7 @@ Add the following to environment or `config.json`:
 - DISCORD_TOKEN
 - COMMAND_PREFIX
 - Servers
+- ExcludeWords
 
 If you want to persist chat logs and are using docker, map the /db folder.
 
@@ -30,6 +31,19 @@ If you want to persist chat logs and are using docker, map the /db folder.
             "Port": 27016,
             "RCONPassword": "strongpassword"
         }
+    ],
+
+    "ExcludeWords": [
+        "the",
+        "and",
+        "a",
+        "an",
+        "are",
+        "at",
+        "be",
+        "by",
+        "for",
+        "from"
     ]
 }
 ```

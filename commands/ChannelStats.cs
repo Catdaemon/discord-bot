@@ -7,11 +7,23 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace discord_bot.Modules
 {
     public class ChannelStats : ModuleBase
     {
+        private IConfiguration configuration;
+        private List<string> ignoredWords = new List<string>();
+        private string commandPrefix = "!";
+
+        public ChannelStats(IServiceProvider services)
+        {
+            configuration = services.GetRequiredService<IConfiguration>();
+            configuration.Bind("ExcludeWords", ignoredWords);
+            commandPrefix = configuration["COMMAND_PREFIX"];
+        }
+
         [Command("stats")]
         [Alias("channelstats")]
         public async Task GetChannelStats([Remainder]string args = null)
@@ -23,39 +35,6 @@ namespace discord_bot.Modules
 
             List<string> messages;
             List<string> users;
-
-            List<string> ignore = new List<string>()
-            {
-                "the",
-                "and",
-                "a",
-                "an",
-                "are",
-                "at",
-                "be",
-                "by",
-                "for",
-                "from",
-                "has",
-                "he",
-                "she",
-                "in",
-                "is",
-                "it",
-                "its",
-                "of",
-                "on",
-                "that",
-                "to",
-                "was",
-                "were",
-                "will",
-                "with",
-                "out",
-                "find",
-                "i",
-                "when"
-            };
 
             var words = new Dictionary<string, int>();
             var userCounts = new Dictionary<string, int>();
@@ -69,7 +48,7 @@ namespace discord_bot.Modules
             foreach(var message in messages)
             {
                 var _message = message.Replace(",", "").Replace(".", "").Replace("'", "").Replace("\"", "").ToLower();
-                var _words = _message.Split(' ').Where(x => !ignore.Contains(x) && !x.StartsWith("!"));
+                var _words = _message.Split(' ').Where(x => !ignoredWords.Contains(x) && !x.StartsWith("!"));
 
                 foreach(var _word in _words)
                 {
