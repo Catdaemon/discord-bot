@@ -15,6 +15,7 @@ namespace discord_bot
         // setup our fields we assign later
         private readonly IConfiguration _config;
         private DiscordSocketClient _client;
+        private bool shutdown = false;
 
         static void Main(string[] args)
         {
@@ -49,6 +50,7 @@ namespace discord_bot
                 // setup logging and the ready event
                 client.Log += LogAsync;
                 client.Ready += ReadyAsync;
+                client.Disconnected += Disconnected;
                 services.GetRequiredService<CommandService>().Log += LogAsync;
 
                 // this is where we get the Token value from the configuration file, and start the bot
@@ -58,13 +60,23 @@ namespace discord_bot
                 // we get the CommandHandler class here and call the InitializeAsync method to start things up for the CommandHandler service
                 await services.GetRequiredService<CommandHandler>().InitializeAsync();
 
-                await Task.Delay(-1);
+                while(!shutdown)
+                {
+                    await Task.Delay(1000);
+                }
             }
         }
 
         private Task LogAsync(LogMessage log)
         {
             Console.WriteLine(log.ToString());
+            return Task.CompletedTask;
+        }
+
+        private Task Disconnected(Exception e)
+        {
+            Console.WriteLine("(!) Disconnected: " + e.Message);
+            shutdown = true;
             return Task.CompletedTask;
         }
 
